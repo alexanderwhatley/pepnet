@@ -11,6 +11,7 @@
 # limitations under the License.
 
 from serializable import Serializable
+import keras.backend as K
 
 from .nn_helpers import (
     aligned_convolutions,
@@ -359,7 +360,7 @@ class SequenceInput(Serializable):
         return value
 
     def _build_dense(self, value):
-        if value.ndim > 2 and not self.return_sequences:
+        if K.ndim(value) > 2 and not self.return_sequences:
             value = flatten(value, drop_mask=self.mask_zero)
 
         value = dense_layers(
@@ -371,7 +372,7 @@ class SequenceInput(Serializable):
         return value
 
     def _build_highway(self, value):
-        if value.ndim > 2 and not self.return_sequences:
+        if K.ndim(value) > 2 and not self.return_sequences:
             value = flatten(value, drop_mask=self.mask_zero)
         if self.n_highway_layers:
             value = highway_layers(
