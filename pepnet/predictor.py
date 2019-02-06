@@ -253,7 +253,7 @@ class Predictor(Serializable):
             outputs = np.array(outputs).squeeze().T
 
         if isinstance(outputs, np.ndarray):
-            if K.ndim(outputs) == 1:
+            if outputs.ndim == 1:
                 outputs = np.expand_dims(outputs, 1)
 
             n_given_outputs = outputs.shape[1]

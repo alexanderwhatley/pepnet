@@ -35,7 +35,6 @@ def masked_mse(y_true, y_pred):
     sum_squared_error = K.sum(
         K.switch(mask, K.zeros(K.shape(squared)), squared),
         axis=-1)
-    print(K.cast(~mask, dtype='float32').dtype)
     n_valid_per_sample = K.sum(K.cast(~mask, dtype='float32'), axis=-1)
     return sum_squared_error / n_valid_per_sample
 
@@ -46,6 +45,5 @@ def masked_binary_crossentropy(y_true, y_pred):
         target=y_true)
     sum_cross_entropy_values = K.sum(
         K.switch(mask, K.zeros(K.shape(cross_entropy_values)), cross_entropy_values), axis=-1)
-    print(K.cast(~mask, dtype='float32').dtype)
     n_valid_per_sample = K.sum(K.cast(~mask, dtype='float32'), axis=-1)
     return sum_cross_entropy_values / n_valid_per_sample
