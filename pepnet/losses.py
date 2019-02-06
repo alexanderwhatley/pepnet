@@ -14,7 +14,7 @@
 
 
 import keras.backend as K
-import theano.tensor as T
+from tensorflow import debugging 
 
 def positive_only_mse(y_true, y_pred):
     """
@@ -29,7 +29,7 @@ def positive_only_mse(y_true, y_pred):
     return K.mean(squared, axis=-1)
 
 def masked_mse(y_true, y_pred):
-    mask = T.isnan(y_true)
+    mask = debugging.is_nan(y_true)
     diff = y_pred - y_true
     squared = K.square(diff)
     sum_squared_error = K.sum(
@@ -39,7 +39,7 @@ def masked_mse(y_true, y_pred):
     return sum_squared_error / n_valid_per_sample
 
 def masked_binary_crossentropy(y_true, y_pred):
-    mask = T.isnan(y_true)
+    mask = debugging.is_nan(y_true)
     cross_entropy_values = K.binary_crossentropy(
         output=y_pred,
         target=y_true)
