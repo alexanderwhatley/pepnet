@@ -166,6 +166,8 @@ class Predictor(Serializable):
         for (input_names, merge_mode) in merge_dict.items():
             if isinstance(input_names, string_types):
                 input_names = (input_names,)
+            for name in input_names:
+                print(name, K.shape(subgraphs_dict[name]))
             combined_tensors.append(
                 merge([subgraphs_dict[name] for name in input_names],
                         merge_mode))
