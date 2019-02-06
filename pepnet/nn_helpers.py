@@ -34,6 +34,7 @@ from keras.layers import (
     Reshape,
     Multiply,
     Add,
+    Dot,
     Flatten,
     Lambda,
     LSTM,
@@ -68,7 +69,7 @@ def make_numeric_input(name, dim, dtype):
 
 
 def merge(values, merge_mode):
-    assert merge_mode in {"concat", "add", "multiply"}
+    assert merge_mode in {"concat", "add", "multiply", "dot"}
     if len(values) == 1:
         return values[0]
     elif merge_mode == "concat":
@@ -77,6 +78,8 @@ def merge(values, merge_mode):
         return Add()(values)
     elif merge_mode == "multiply":
         return Multiply()(values)
+    elif merge_mode == "dot":
+        return Dot()(values)
 
 def flatten(value, drop_mask=False):
     if drop_mask:
