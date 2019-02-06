@@ -36,7 +36,7 @@ class MaskedMaxPooling1D(MaxPooling1D):
         if mask is None:
             return None
         # dimensions of mask should be (batch_size, time_steps)
-        assert mask.ndim == 2
+        assert K.ndim(mask) == 2
         # add a dummy dimension so that the shape is now
         # (batch_size, time_steps, 1)
         mask = K.expand_dims(mask, 2)

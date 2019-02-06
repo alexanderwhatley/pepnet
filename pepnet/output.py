@@ -10,6 +10,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import keras.backend as K
+
 from .nn_helpers import dense_layers, dense, flatten
 from .numeric import Numeric
 from .losses import masked_mse, masked_binary_crossentropy
@@ -55,7 +57,7 @@ class Output(Numeric):
             dropout=self.dense_dropout,
             batch_normalization=self.dense_batch_normalization,
             time_distributed=self.dense_time_distributed)
-        if hidden.ndim > 2:
+        if K.ndim(hidden) > 2:
             hidden = flatten(hidden, drop_mask=True)
         output = dense(
             hidden,

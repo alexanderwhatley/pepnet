@@ -16,6 +16,7 @@ from six import string_types
 import numpy as np
 from keras.models import Model
 from keras.utils import plot_model
+import keras.backend as K
 from serializable import Serializable
 import ujson
 
@@ -252,7 +253,7 @@ class Predictor(Serializable):
             outputs = np.array(outputs).squeeze().T
 
         if isinstance(outputs, np.ndarray):
-            if outputs.ndim == 1:
+            if K.ndim(outputs) == 1:
                 outputs = np.expand_dims(outputs, 1)
 
             n_given_outputs = outputs.shape[1]

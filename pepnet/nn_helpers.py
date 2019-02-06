@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import keras.backend as K
+
 from .keras_layers.masked_maxpooling1d import MaskedMaxPooling1D as MaxPooling1D
 from .keras_layers.masked_conv1d import MaskedConv1D as Conv1D
 from .keras_layers.masked_global_average_pooling import (
@@ -262,15 +264,15 @@ def dense(
         layer = Dense(
             units=dim, kernel_initializer=init, name="%s_dense" % name)
         if time_distributed:
-            assert value.ndim == 3, "Expected 3D value but got %dD: %s" % (
-                value.ndim, value)
+            assert K.ndim(value) == 3, "Expected 3D value but got %dD: %s" % (
+                K.ndim(value), value)
             layer = TimeDistributed(layer)
         value = Activation(activation, name=name)(layer(value))
     else:
         layer = Dense(units=dim, kernel_initializer=init)
         if time_distributed:
-            assert value.ndim == 3, "Expected 3D value but got %dD: %s" % (
-                value.ndim, value)
+            assert K.ndim(value) == 3, "Expected 3D value but got %dD: %s" % (
+                K.ndim(value), value)
             layer = TimeDistributed(layer)
         value = Activation(activation)(layer(value))
     return value
